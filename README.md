@@ -4,7 +4,7 @@ A simple public personal homepage: tiger artwork, centered ink calligraphy, a pr
 
 Plain HTML and CSS. No JavaScript, framework, database, application backend, tracking scripts, or runtime dependencies. Cloudflare is used only for static hosting and GitHub deployment.
 
-**Status:** implemented and previewed locally; not published. The contact address is set to `zoltan@zahorszky.com`. No Cloudflare account or GitHub repository has been configured by this project.
+**Status:** implemented, previewed locally, and stored in the public [`zahorszky/zahorszky.com`](https://github.com/zahorszky/zahorszky.com) repository. The website itself has not been published yet. The contact address is set to `zoltan@zahorszky.com`.
 
 ## Files
 
@@ -94,19 +94,9 @@ Desktop uses a full canvas; narrow portrait screens reposition the tiger below t
 
 ## Publish with GitHub and Cloudflare
 
-### 1. Create the repository
+### 1. Repository
 
-Create an empty GitHub repository named `zahorszky`. It can remain private even though the website is public. Do not add an automatic README or gitignore. From this directory, substitute your GitHub username:
-
-```sh
-git init -b main
-git add .
-git commit -m "Create personal homepage"
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/zahorszky.git
-git push -u origin main
-```
-
-Use your normal GitHub authentication; do not put credentials in files. If using an existing repository, inspect its branch and remote instead of initializing it again.
+The source is stored in the public [`zahorszky/zahorszky.com`](https://github.com/zahorszky/zahorszky.com) repository. The production branch is `main`. Use your normal GitHub authentication and never put credentials in project files.
 
 ### 2. Connect the repository to Cloudflare
 
