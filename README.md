@@ -2,9 +2,9 @@
 
 A simple public personal homepage: tiger artwork, centered ink calligraphy, a prominent wordmark, and contact details. Visitors open the page directly, with no sign-in.
 
-Plain HTML and CSS. No JavaScript, framework, database, application backend, tracking scripts, or runtime dependencies. Cloudflare is used only for static hosting and GitHub deployment.
+Plain HTML and CSS. No JavaScript, framework, database, application backend, tracking scripts, or runtime dependencies. Cloudflare Workers hosts the static site, and GitHub stores its source and history.
 
-**Status:** implemented, previewed locally, and stored in the public [`zahorszky/zahorszky.com`](https://github.com/zahorszky/zahorszky.com) repository. The website itself has not been published yet. The contact address is set to `zoltan@zahorszky.com`.
+**Status:** live at [zahorszky.com](https://zahorszky.com) and [www.zahorszky.com](https://www.zahorszky.com), with source in the public [`zahorszky/zahorszky.com`](https://github.com/zahorszky/zahorszky.com) repository. The contact address is set to `zoltan@zahorszky.com`.
 
 ## Files
 
@@ -98,33 +98,17 @@ Desktop uses a full canvas; narrow portrait screens reposition the tiger below t
 
 The source is stored in the public [`zahorszky/zahorszky.com`](https://github.com/zahorszky/zahorszky.com) repository. The production branch is `main`. Use your normal GitHub authentication and never put credentials in project files.
 
-### 2. Connect the repository to Cloudflare
+### 2. Deploy to Cloudflare
 
-In **Workers & Pages**, create a Worker from your GitHub repository. Select these settings:
+Authenticate once with `npx wrangler@4 login`, then deploy from the repository root:
 
-| Setting | Value |
-| --- | --- |
-| Worker name | `zahorszky` (matches `wrangler.jsonc`) |
-| Production branch | `main` |
-| Root directory | Repository root |
-| Build command | Leave empty |
-| Deploy command | `npx wrangler@4 deploy` |
-| Non-production branch builds | Disable for simplicity |
-| Site environment variables | None |
+```sh
+npx wrangler@4 deploy
+```
 
-Cloudflare deploys `public/` using Workers Static Assets. The configuration enables the Worker's public `workers.dev` address, so you can view the page immediately after deployment. Preview URLs remain disabled. No login service is required.
+Cloudflare uploads `public/` as Workers Static Assets. The `wrangler.jsonc` file connects both `zahorszky.com` and `www.zahorszky.com` as custom domains. Cloudflare manages their DNS records and HTTPS certificates; there is no separate origin server, build step, environment variable, or application runtime to maintain.
 
-Build settings live under **your Worker → Settings → Build**. Cloudflare can manage its deployment token internally; do not commit it. [Official build configuration](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/)
-
-### 3. Connect your domain
-
-Add your domain to Cloudflare, review imported DNS records, and use the nameservers Cloudflare supplies at your registrar. Preserve mail-related MX/TXT records. Wait for the zone to become Active; skip this step if it is already active in your account.
-
-Go to **Workers & Pages → zahorszky → Settings → Domains & Routes → Add → Custom Domain**. Enter your domain, such as `zahorszky.com`. Cloudflare creates the DNS record and HTTPS certificate. Resolve conflicting records deliberately without changing unrelated services. [Custom Domain setup](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)
-
-Check certificate activation under the domain's **SSL/TLS → Edge Certificates**, and enable **Always Use HTTPS**. There is no separate origin server to maintain.
-
-Use one canonical hostname initially. Domain settings are managed in the dashboard, so no `routes` entry is needed in this project's configuration.
+The unrelated `_domainconnect` DNS record remains in place. Mail service must be configured separately with the MX and verification records supplied by the chosen email provider.
 
 ## Deploy updates
 
@@ -137,7 +121,7 @@ git commit -m "Update homepage"
 git push
 ```
 
-Cloudflare automatically deploys pushes to `main`. Check the successful commit under **Workers & Pages → zahorszky → Builds**, then the active version under **Deployments**. Reload the live homepage to verify it.
+After pushing the source update, deploy it with `npx wrangler@4 deploy`. Check the active version under **Workers & Pages → zahorszky → Deployments**, then reload the live homepage.
 
 To undo a bad commit:
 
@@ -168,4 +152,4 @@ Before launch:
 - Confirm `/README.md` and `/wrangler.jsonc` return 404.
 - Decide whether to allow search engines to index the site.
 
-Account setup, DNS, and publishing remain to be completed. Dashboard instructions were checked against Cloudflare's documentation on September 16, 2026; consult the linked pages if labels change.
+The first production deployment and custom-domain setup were completed and verified on September 19, 2026.

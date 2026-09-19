@@ -5,7 +5,16 @@
     "directory": "./public",
     "not_found_handling": "none"
   },
-  // Serve the homepage directly. Add a Custom Domain in the dashboard when ready.
+  "routes": [
+    {
+      "pattern": "zahorszky.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.zahorszky.com",
+      "custom_domain": true
+    }
+  ],
   "workers_dev": true,
   "preview_urls": false
 }
