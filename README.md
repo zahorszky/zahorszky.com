@@ -106,7 +106,7 @@ Authenticate once with `npx wrangler@4 login`, then deploy from the repository r
 npx wrangler@4 deploy
 ```
 
-Cloudflare uploads `public/` as Workers Static Assets. The `wrangler.jsonc` file connects both `zahorszky.com` and `www.zahorszky.com` as custom domains. Cloudflare manages their DNS records and HTTPS certificates; there is no separate origin server, build step, environment variable, or application runtime to maintain.
+Cloudflare uploads `public/` as Workers Static Assets. The `wrangler.jsonc` file connects both `zahorszky.com` and `www.zahorszky.com` as custom domains. Cloudflare manages their DNS records and HTTPS certificates, and plain HTTP requests redirect to HTTPS. There is no separate origin server, build step, environment variable, or application runtime to maintain.
 
 The unrelated `_domainconnect` DNS record remains in place. Mail service must be configured separately with the MX and verification records supplied by the chosen email provider.
 
