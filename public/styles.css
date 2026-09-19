@@ -1,0 +1,161 @@
+:root {
+  color-scheme: light;
+  --paper: #f3f0e8;
+  --ink: #292a27;
+  --muted: #4d4d48;
+  --accent: #976344;
+  --content-width: 1280px;
+  --page-space: clamp(24px, 5vw, 88px);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  position: relative;
+  isolation: isolate;
+}
+
+.artwork {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.artwork img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right 65%;
+}
+
+/* Keep the contact details legible over the edge of the painting. */
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--paper), transparent 20%);
+}
+
+.masthead {
+  text-align: center;
+  padding: calc(clamp(32px, 6vh, 64px) + env(safe-area-inset-top)) var(--page-space) 24px;
+}
+
+.wordmark {
+  margin: 0;
+  padding-left: .12em;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(34px, 3.4vw, 48px);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.main {
+  width: min(100%, var(--content-width));
+  margin-inline: auto;
+  padding: 32px max(var(--page-space), env(safe-area-inset-right)) 32px max(var(--page-space), env(safe-area-inset-left));
+  display: grid;
+  place-items: center;
+}
+
+.inscription {
+  display: block;
+  width: min(320px, 68vw);
+  height: auto;
+}
+
+@media (orientation: landscape) {
+  .inscription { transform: translateX(clamp(-260px, -16vw, -120px)); }
+}
+
+.footer {
+  text-align: center;
+  padding: 24px max(var(--page-space), env(safe-area-inset-right)) calc(36px + env(safe-area-inset-bottom)) max(var(--page-space), env(safe-area-inset-left));
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-style: normal;
+}
+
+.contact strong {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.contact a {
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 500;
+  text-decoration-color: #928e86;
+  text-underline-offset: 3px;
+}
+
+.contact a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 5px;
+}
+
+@media (hover: hover) {
+  .contact a:hover { color: var(--accent); text-decoration-color: currentColor; }
+}
+
+@media (orientation: portrait) {
+  .inscription { transform: translateY(-30px); }
+  .artwork {
+    top: max(298px, 34%);
+    bottom: 70px;
+  }
+  .artwork img {
+    position: absolute;
+    width: min(150%, calc((100svh - max(298px, 34svh) - 70px) * 1.5));
+    height: auto;
+    max-width: none;
+    right: -5%;
+    top: 50%;
+    transform: translateY(-50%);
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 83%, transparent);
+  }
+  .footer { padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .masthead { padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: 8px; }
+  .main { padding-block: 16px; }
+  .inscription { width: min(190px, 34vw); }
+  .footer { padding-top: 8px; padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
+
+@media (min-aspect-ratio: 2/1) {
+  .artwork img { object-fit: contain; object-position: right center; }
+  .artwork {
+    left: auto;
+    width: 150vh;
+    mask-image: linear-gradient(to right, transparent, black 35%);
+  }
+}
+
+@media (forced-colors: active) {
+  .artwork, body::after { display: none; }
+}

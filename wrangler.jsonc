@@ -1,0 +1,11 @@
+{
+  "name": "zahorszky",
+  "compatibility_date": "2026-09-16",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "none"
+  },
+  // Serve the homepage directly. Add a Custom Domain in the dashboard when ready.
+  "workers_dev": true,
+  "preview_urls": false
+}
