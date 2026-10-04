@@ -13,10 +13,8 @@ public/
   index.html          Wordmark, calligraphy, Contact email, image references
   styles.css          Colors, typography, responsive layout
   assets/
-    tiger.avif        1536 × 1024 artwork, approximately 192 KB
-    tiger.webp        WebP fallback, approximately 229 KB
-    tiger-small.avif  900 × 600 version, approximately 75 KB
-    tiger-small.webp  Smaller fallback, approximately 93 KB
+    winter-passage.avif  1536 × 1024 Winter Passage artwork, approximately 220 KB
+    winter-passage.webp  WebP fallback, approximately 276 KB
     calligraphy.webp  Fine transparent ink characters, approximately 173 KB
     favicon.svg       Minimal Z monogram
   _headers            Security, cache, and indexing headers
@@ -60,7 +58,7 @@ Open the local URL printed by Wrangler. Wrangler is the deployment tool, not a s
 | Name | `<h1>`, `<title>`, and description in `public/index.html` |
 | Calligraphy | `public/assets/calligraphy.webp`, its `<img>` in `public/index.html`, and `.inscription` in `public/styles.css` |
 | Colors and spacing | Custom properties at the top of `public/styles.css` |
-| Background | The four `tiger*` image files, or their `<picture>` references |
+| Background | The two `winter-passage*` image files, or their `<picture>` references |
 | Favicon | `public/assets/favicon.svg` |
 
 The email appears twice together in one footer block: once as the visible text and once in its `mailto:` link. The link opens the visitor's configured email application.
@@ -71,7 +69,7 @@ The tiger background and separate calligraphy were generated from the supplied r
 
 AVIF saves transfer size; WebP provides a widely supported fallback. The browser chooses a suitable width and format for the painting, not all four files. The painting and calligraphy have separate alternative text. System fonts require no downloads.
 
-For replacements, use a 3:2 landscape with quiet upper/left space, and keep the tiger's face and paws away from the edges. Export at 1536 × 1024 and 900 × 600. Keep the larger export below about 450 KB when possible, checking brush detail at actual viewing size. Do not upscale a small source or repeatedly recompress an already compressed image. Retain your original separately.
+For replacements, use a 3:2 landscape with quiet upper space, and keep the tiger's face and paws away from the edges. Export at 1536 × 1024. Keep the export below about 450 KB when possible, checking brush detail at actual viewing size. Do not upscale a small source or repeatedly recompress an already compressed image. Retain your original separately.
 
 An image editor with AVIF/WebP export is sufficient. Optional reproducible conversion using Pillow (an editing tool, not a site dependency):
 
@@ -83,14 +81,13 @@ from PIL import Image, ImageOps
 
 source = ImageOps.exif_transpose(Image.open('/absolute/path/to/replacement.png')).convert('RGB')
 assert source.width * 2 == source.height * 3, 'Prepare a 3:2 source first'
-for name, width in [('tiger', 1536), ('tiger-small', 900)]:
-    image = source.resize((width, width * 2 // 3), Image.Resampling.LANCZOS)
-    image.save(f'public/assets/{name}.avif', quality=68, speed=6)
-    image.save(f'public/assets/{name}.webp', quality=86, method=6)
+image = source.resize((1536, 1024), Image.Resampling.LANCZOS)
+image.save('public/assets/winter-passage.avif', quality=68, speed=6)
+image.save('public/assets/winter-passage.webp', quality=86, method=6)
 PY
 ```
 
-Desktop uses a full canvas; narrow portrait screens reposition the tiger below the calligraphy. Ultrawide screens keep the image proportions and fade the left edge. The separate ink layer is centered on phones and shifted left on wide screens to keep the tiger visible. Check these layouts after replacing either asset.
+The painting fills the viewport and repositions slightly on narrow screens. The wordmark, calligraphy, and contact block stay centered at every supported width. Check both landscape and portrait layouts after replacing either asset.
 
 ## Publish with GitHub and Cloudflare
 
